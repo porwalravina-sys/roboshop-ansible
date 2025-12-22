@@ -22,7 +22,7 @@
 - name: create nginx directory
   ansible.builtin.file:
     path: /usr/share/nginx/html
-    state: present
+    state: directory
 
 - name: Download and extract frontend content
   ansible.builtin.unarchive:
@@ -30,7 +30,7 @@
     dest: /usr/share/nginx/html
     remote_src: yes
 
-- name: Start ngix service
+- name: Start nginx service
   ansible.builtin.systemd_service:
     state: restarted
     name: nginx
