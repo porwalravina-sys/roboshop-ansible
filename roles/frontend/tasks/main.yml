@@ -14,12 +14,12 @@
     src: nginx.conf
     dest: /etc/nginx/nginx.conf
 
-- name: Recursively nginx directory
+- name: Remove nginx directory
   ansible.builtin.file:
     path: /usr/share/nginx/html
     state: absent
 
-- name: create nginx directory
+- name: Created nginx directory
   ansible.builtin.file:
     path: /usr/share/nginx/html
     state: directory
