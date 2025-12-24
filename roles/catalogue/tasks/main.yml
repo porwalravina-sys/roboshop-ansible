@@ -3,3 +3,37 @@
     name: common
     tasks_from: nodejs
 
+#  echo Copy MongoDB repo file
+#  cp ${dir_path}/mongo.repo /etc/yum.repos.d/mongo.repo &>>log_file
+#  Status_Print $?
+#
+#  echo Install Mongo Client
+#  dnf install mongodb-mongosh -y &>>log_file
+#  Status_Print $?
+#
+#  echo Load Master Data
+#
+#  mongosh --host mongodb-dev.azdevopsb82.online </app/db/master-data.js &>>log_file
+#  Status_Print $?
+
+- name: Copy MongoDB Repo file
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install Mongo Client
+  ansible.builtin.dnf:
+    name: mongodb-mongosh
+    state: installed
+
+- name: Load master data
+  ansible.builtin.shell:
+    community.mongodb.mongodb_shell:
+      login_host: mongodb-dev.azdevopsb82.online
+      file: /app/db/master-data.js
+      idempotent: yes
+
+
+
+
+
