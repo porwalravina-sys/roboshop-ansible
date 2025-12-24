@@ -1,0 +1,22 @@
+#echo Copy Application Service File
+#cp $dir_path/$app_name.service /etc/systemd/system/$app_name.service &>>$log_file
+#
+#Status_Print $?
+#
+#echo Start Application
+#systemctl daemon-reload &>>$log_file
+#systemctl enable $app_name &>>$log_file
+#systemctl restart $app_name &>>$log_file
+#Status_Print $?
+
+- name: Setup SystemD Service file
+  ansible.builtin.copy:
+    src: "{{ component_name }}.service"
+    dest: /etc/systemd/system/{{ component_name }}.service
+
+- name: start the application
+  ansible.builtin.systemd_service:
+    name: "{{ component_name }}"
+    state: restarted
+    enabled: true
+    daemon_reload: true

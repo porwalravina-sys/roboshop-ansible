@@ -1,0 +1,47 @@
+#  NODEJS() {
+#    echo Disable Default NodeJS Version
+#    dnf module disable nodejs -y &>>$log_file
+#    Status_Print $?
+#
+#    echo Enable Default NodeJS Version
+#    dnf module enable nodejs:20 -y &>>$log_file
+#    Status_Print $?
+#
+#    echo install NodeJS
+#    dnf install nodejs -y &>>$log_file
+#    Status_Print $?
+#
+#    APP_PREREQ
+#
+#    echo Install NodeJS Dependencies
+#    npm install &>>$log_file
+#    Status_Print $?
+#
+#    SYSTEMD_SETUP
+#  }
+
+- name: Disable Default NodeJS Version
+  ansible.builtin.shell: dnf module disable nodejs -y
+
+- name: Enable Default NodeJS Version
+  ansible.builtin.shell: dnf module enable nodejs:20 -y
+
+- name: install NodeJS
+  ansible.builtin.dnf:
+    name: nodejs
+    state: installed
+
+- name: Import App Prerequisites
+  ansible.builtin.include_tasks:
+    file: app-prereq.yml
+
+- name: Install NodeJS Dependencies
+  community.general.npm:
+    path: /app
+
+- name: Import App Prerequisites
+  ansible.builtin.include_tasks:
+    file: systemd.yml
+
+
+

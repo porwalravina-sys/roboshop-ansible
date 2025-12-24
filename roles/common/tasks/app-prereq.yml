@@ -1,0 +1,44 @@
+#echo Create Application User
+#id roboshop &>>log_file
+#if [ $? -eq 1 ]; then
+#useradd roboshop &>>log_file
+#fi
+#Status_Print $?
+#
+#echo Remove Application Directory
+#rm -rf /app &>>$log_file
+#Status_Print $?
+#
+#echo Create Application Directory
+#mkdir /app &>>$log_file
+#Status_Print $?
+#
+#echo Download Application Code
+#curl -L -o /tmp/$app_name.zip https://roboshop-artifacts.s3.amazonaws.com/$app_name-v3.zip &>>$log_file
+#Status_Print $?
+#
+#cd /app &>>$log_file
+#
+#echo Extract Application Code
+#unzip /tmp/$app_name.zip &>>$log_file
+#Status_Print $?
+
+- name: Create Application User
+  ansible.builtin.user:
+    name: roboshop
+
+- name: Remove Application Directory
+  ansible.builtin.file:
+    path: /app
+    state: absent
+
+- name: Create Application Directory
+  ansible.builtin.file:
+    path: /app
+    state: directory
+
+- name: Download and extract app content
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/{{ component_name }}-v3.zip
+    dest: /app
+    remote_src: yes
