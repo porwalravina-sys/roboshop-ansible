@@ -27,11 +27,10 @@
     state: installed
 
 - name: Load master data
-  ansible.builtin.shell:
-    community.mongodb.mongodb_shell:
-      login_host: mongodb-dev.azdevopsb82.online
-      file: /app/db/master-data.js
-      idempotent: yes
+  community.mongodb.mongodb_shell:
+    login_host: mongodb-dev.azdevopsb82.online
+    file: /app/db/master-data.js
+    idempotent: yes
 
 
 
