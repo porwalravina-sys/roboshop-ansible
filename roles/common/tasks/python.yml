@@ -1,0 +1,47 @@
+#  NODEJS() {
+#    echo Disable Default NodeJS Version
+#    dnf module disable nodejs -y &>>$log_file
+#    Status_Print $?
+#
+#    echo Enable Default NodeJS Version
+#    dnf module enable nodejs:20 -y &>>$log_file
+#    Status_Print $?
+#
+#    echo install NodeJS
+#    dnf install nodejs -y &>>$log_file
+#    Status_Print $?
+#
+#    APP_PREREQ
+#
+#    echo Install NodeJS Dependencies
+#    npm install &>>$log_file
+#    Status_Print $?
+#
+#    SYSTEMD_SETUP
+#  }
+
+
+- name: install Python
+  ansible.builtin.dnf:
+    name:
+      - gcc
+      - python3
+      - python3-devel
+    state: installed
+
+- name: Import App Prerequisites
+  ansible.builtin.include_tasks:
+    file: app-prereq.yml
+
+- name: Install Python Dependencies
+  ansible.builtin.pip:
+    requirements: /app/requirements.txt
+
+- name: SystemD Service Setup
+  ansible.builtin.include_tasks:
+    file: systemd.yml
+
+
+
+
+
