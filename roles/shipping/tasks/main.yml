@@ -10,7 +10,7 @@
 #  for file in schema app-user master-data; do
 #
 #  echo Load $file
-#  mysql -h mysql-dev.azdevopsb82.online -uroot -pRoboShop@1 < /app/db/$file.sql &>>log_file
+#  mysql -h mysql-{{ ENV }}.azdevopsb82.online -uroot -pRoboShop@1 < /app/db/$file.sql &>>log_file
 #  Status_Print $?
 #  done
 
@@ -27,7 +27,7 @@
     state: import
     name: all
     target: /app/db/{{ item }}.sql
-    login_host: mysql-dev.azdevopsb82.online
+    login_host: mysql-{{ ENV }}.azdevopsb82.online
     login_user: root
     login_password: RoboShop@1
   loop:

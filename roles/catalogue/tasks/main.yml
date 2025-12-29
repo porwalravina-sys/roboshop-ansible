@@ -13,7 +13,7 @@
 #
 #  echo Load Master Data
 #
-#  mongosh --host mongodb-dev.azdevopsb82.online </app/db/master-data.js &>>log_file
+#  mongosh --host mongodb-{{ ENV }}.azdevopsb82.online </app/db/master-data.js &>>log_file
 #  Status_Print $?
 
 - name: Copy MongoDB Repo file
@@ -28,7 +28,7 @@
 
 - name: Load master data
   community.mongodb.mongodb_shell:
-    login_host: mongodb-dev.azdevopsb82.online
+    login_host: mongodb-{{ ENV }}.azdevopsb82.online
     file: /app/db/master-data.js
     idempotent: yes
 
